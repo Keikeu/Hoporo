@@ -85,7 +85,7 @@ function init() {
    scene = new Scene();
    scene.background = new Color(0x01C1B2);
 
-   // initGround(scene, gameState.map);
+   initGround(scene, gameState.map);
    initStart(scene, gameState.map, starts);
    initWalls(scene, gameState.map, walls);
    initGates(scene, gameState.map, gates);
