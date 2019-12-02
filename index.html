@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta charset="UTF-8" />
+   <title>Hoporo</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="icon" href="./media/icon.png" type="image/png">
+   <link href="./styles/main.css" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Signika:400,700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+   <div class="modal-container" id="menu">
+      <div class="modal">
+         <h1>Welcome to Hoporo!</h1>
+         <p>Control the hero using arrows.</p>
+         <p>Collect crystals and deploy them at the starting square.</p>
+         <p>Use your magic charge [Shift] to destroy obstacles and kill monsters.</p>
+         <button class="play-btn">Play</button>
+      </div>
+   </div>
+   <div class="modal-container modal-container--next invisible" id="menu">
+      <div class="modal">
+         <h1>You did it!</h1>
+         <p>You pass on to the next level.</p>
+         <button class="play-btn">Next level</button>
+      </div>
+   </div>
+   <div class="modal-container modal-container--defeat invisible" id="menu">
+      <div class="modal">
+         <h1>You suck!</h1>
+         <p>Didn't even try your best, loser.</p>
+         <button class="play-btn">Play again</button>
+      </div>
+   </div>
+   <div class="modal-container modal-container--win invisible" id="menu">
+      <div class="modal">
+         <h1>Eyyyyyyyyyy!!!!</h1>
+         <p>You finished the entire game.</p>
+         <button class="play-btn">Start over</button>
+      </div>
+   </div>
+
+   <div class="info">
+      <div class="info__item">Level <span id="level">1</span></div>
+      <div class="info__item">Crystals: <span id="crystals">4</span></div>
+   </div>
+
+   <div id="scene-container"></div>
+
+   <ul id="charge">
+      <span>Charge:</span>
+      <div class="charge__item"></div>
+      <div class="charge__item"></div>
+      <div class="charge__item"></div>
+      <div class="charge__item"></div>
+      <div class="charge__item"></div>
+      <div class="charge__item"></div>
+      <div class="charge__item"></div>
+      <div class="charge__item"></div>
+      <div class="charge__item"></div>
+      <div class="charge__item"></div>
+   </ul>
+
+   <script type="module" src="./js/index.js"></script>
+
+</body>
+
+</html>
