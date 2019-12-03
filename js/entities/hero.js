@@ -360,7 +360,7 @@ export function initHero(scene, map, heros, missiles) {
 
    audioLoader.load('./media/sounds/jump.wav', buffer => {
       jumpSound.setBuffer(buffer);
-      jumpSound.setVolume(0.8);
+      jumpSound.setVolume(1.0);
    });
 
    audioLoader.load('./media/sounds/grab.wav', buffer => {

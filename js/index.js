@@ -440,7 +440,7 @@ function initAudio() {
    audioLoader.load('./media/sounds/music.mp3', buffer => {
       music.setBuffer(buffer);
       music.setLoop(true);
-      music.setVolume(0.5);
+      music.setVolume(0.4);
       music.play();
    });
 
@@ -517,8 +517,6 @@ function initRenderer() {
    renderer.setPixelRatio(window.devicePixelRatio);
    renderer.shadowMap.enabled = true;
    renderer.shadowMap.type = PCFSoftShadowMap;
-   // renderer.gammaInput = true;
-   // renderer.gammaFactor = 2.2;
 }
 
 // =============================================================================
