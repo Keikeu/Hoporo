@@ -432,12 +432,12 @@ function initAudio() {
    music = new Audio(listener);
    killSound = new Audio(listener);
 
-   audioLoader.load('../media/sounds/kill.wav', buffer => {
+   audioLoader.load('./media/sounds/kill.wav', buffer => {
       killSound.setBuffer(buffer);
       killSound.setVolume(0.7);
    });
 
-   audioLoader.load('../media/sounds/music.mp3', buffer => {
+   audioLoader.load('./media/sounds/music.mp3', buffer => {
       music.setBuffer(buffer);
       music.setLoop(true);
       music.setVolume(0.5);
