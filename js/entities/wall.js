@@ -18,7 +18,6 @@ export class Wall {
       this._mesh.position.set( x, y, z );
       this._mesh.castShadow = true;
       this._mesh.receiveShadow = false;
-      // this._mesh.receiveShadow = true;
    }
 
    get map()   { return this._map; }

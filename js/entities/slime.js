@@ -141,7 +141,7 @@ export class Slime {
 function getModel() {
    const loader = new GLTFLoader();
    return new Promise(resolve => {
-      loader.load( '../../media/models/slime/model.gltf', resolve, undefined, function ( error ) {
+      loader.load( './media/models/slime/model.gltf', resolve, undefined, function ( error ) {
          console.error( error );
       } );
    });

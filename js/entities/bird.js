@@ -133,7 +133,7 @@ export class Bird {
 function getModel() {
    const loader = new GLTFLoader();
    return new Promise(resolve => {
-      loader.load( '../../media/models/bird/model.gltf', resolve, undefined, function ( error ) {
+      loader.load( './media/models/bird/model.gltf', resolve, undefined, function ( error ) {
          console.error( error );
       } );
    });

@@ -315,7 +315,7 @@ function calcSpeed(x) {
 function getHeroModel() {
    const loader = new GLTFLoader();
    return new Promise(resolve => {
-      loader.load( '../../media/models/hero/model.gltf', resolve, undefined, function ( error ) {
+      loader.load( './media/models/hero/model.gltf', resolve, undefined, function ( error ) {
          console.error( error );
       } );
    });
@@ -324,7 +324,7 @@ function getHeroModel() {
 function getMissileModel() {
    const loader = new GLTFLoader();
    return new Promise(resolve => {
-      loader.load( '../../media/models/missile/model.gltf', resolve, undefined, function ( error ) {
+      loader.load( './media/models/missile/model.gltf', resolve, undefined, function ( error ) {
          console.error( error );
       } );
    });
@@ -353,30 +353,30 @@ export function initHero(scene, map, heros, missiles) {
    deploySound = new Audio(listener);
    ascendSound = new Audio(listener);
 
-   audioLoader.load('../../media/sounds/shoot.wav', buffer => {
+   audioLoader.load('./media/sounds/shoot.wav', buffer => {
       shootSound.setBuffer(buffer);
       shootSound.setVolume(0.6);
    });
 
-   audioLoader.load('../../media/sounds/jump.wav', buffer => {
+   audioLoader.load('./media/sounds/jump.wav', buffer => {
       jumpSound.setBuffer(buffer);
       jumpSound.setVolume(0.8);
    });
 
-   audioLoader.load('../../media/sounds/grab.wav', buffer => {
+   audioLoader.load('./media/sounds/grab.wav', buffer => {
       grabSound.setBuffer(buffer);
       grabSound.setVolume(0.6);
       grabSound.setPlaybackRate(1.3);
       grabSound.duration = 0.55;
    });
 
-   audioLoader.load('../../media/sounds/deploy.wav', buffer => {
+   audioLoader.load('./media/sounds/deploy.wav', buffer => {
       deploySound.setBuffer(buffer);
       deploySound.setVolume(0.6);
       deploySound.setPlaybackRate(2.7);
    });
 
-   audioLoader.load('../../media/sounds/deploy.wav', buffer => {
+   audioLoader.load('./media/sounds/deploy.wav', buffer => {
       ascendSound.setBuffer(buffer);
       ascendSound.setVolume(0.6);
       ascendSound.setPlaybackRate(0.9);
