@@ -7,7 +7,7 @@ import {
 } from '../three/three.module.js';
 
 const geo = new PlaneBufferGeometry( 1, 1 );
-const tex = new TextureLoader().load( '../../media/arrow.png' );
+const tex = new TextureLoader().load( './media/arrow.png' );
 const mat = new MeshLambertMaterial( { map: tex } );
 
 export class Arrow {
