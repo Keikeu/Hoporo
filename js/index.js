@@ -60,7 +60,7 @@ let music, killSound;
 let container, chargeContainer, scene, camera, renderer;
 let clock = new Clock(), delta = 0, elapsed = 0, chargeTime = 0, deployTime = 0;
 
-import(`./levels/level${gameState.level}.js`)
+let promise = import(`./levels/level${gameState.level}.js`)
    .then(map => {
       gameState.map = JSON.parse(JSON.stringify(map));
       init();
