@@ -60,7 +60,7 @@ let music, killSound;
 let container, chargeContainer, scene, camera, renderer;
 let clock = new Clock(), delta = 0, elapsed = 0, chargeTime = 0, deployTime = 0;
 
-let promise = require(`./levels/level${gameState.level}.js`)
+import(`./levels/level${gameState.level}.js`)
    .then(map => {
       gameState.map = JSON.parse(JSON.stringify(map));
       init();
@@ -264,7 +264,7 @@ function play() {
    } else if (document.querySelector('.modal-container--next').classList.contains("invisible") === false && gameState.level + 1 <= 5) {
 
       gameState.level++;
-      require(`./levels/level${gameState.level}.js`)
+      import(`./levels/level${gameState.level}.js`)
          .then(map => {
             document.querySelector('.modal-container--next').classList.add("invisible");
             gameState.win = false;
@@ -291,7 +291,7 @@ function play() {
 
    } else if (document.querySelector('.modal-container--defeat').classList.contains("invisible") === false) {
 
-      require(`./levels/level${gameState.level}.js`)
+      import(`./levels/level${gameState.level}.js`)
          .then(map => {
             document.querySelector('.modal-container--defeat').classList.add("invisible");
             gameState.win = false;
@@ -319,7 +319,7 @@ function play() {
    } else if (document.querySelector('.modal-container--win').classList.contains("invisible") === false) {
 
       gameState.level = 1;
-      require(`./levels/level${gameState.level}.js`)
+      import(`./levels/level${gameState.level}.js`)
          .then(map => {
             document.querySelector('.modal-container--win').classList.add("invisible");
             gameState.win = false;
