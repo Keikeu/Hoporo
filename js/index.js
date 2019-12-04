@@ -264,7 +264,7 @@ function play() {
    } else if (document.querySelector('.modal-container--next').classList.contains("invisible") === false && gameState.level + 1 <= 5) {
 
       gameState.level++;
-      import(`./levels/level${gameState.level}.js`)
+      require(`./levels/level${gameState.level}.js`)
          .then(map => {
             document.querySelector('.modal-container--next').classList.add("invisible");
             gameState.win = false;
@@ -291,7 +291,7 @@ function play() {
 
    } else if (document.querySelector('.modal-container--defeat').classList.contains("invisible") === false) {
 
-      import(`./levels/level${gameState.level}.js`)
+      require(`./levels/level${gameState.level}.js`)
          .then(map => {
             document.querySelector('.modal-container--defeat').classList.add("invisible");
             gameState.win = false;
@@ -319,7 +319,7 @@ function play() {
    } else if (document.querySelector('.modal-container--win').classList.contains("invisible") === false) {
 
       gameState.level = 1;
-      import(`./levels/level${gameState.level}.js`)
+      require(`./levels/level${gameState.level}.js`)
          .then(map => {
             document.querySelector('.modal-container--win').classList.add("invisible");
             gameState.win = false;
