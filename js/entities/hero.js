@@ -237,6 +237,7 @@ export class Hero {
          for(let i = 1; i <= 10; i++) {
             document.querySelector( '#charge' ).children[i].style.backgroundColor = "#7cb2c9";
          }
+         document.querySelector( '#charge' ).children[0].style.color = "#7cb2c9";
          shootSound.play();
       }
    }

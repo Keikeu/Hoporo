@@ -196,6 +196,7 @@ function update() {
       if (hero.charge < 10 && chargeTime > 0.4) {
          hero.charge++;
          chargeContainer.children[hero.charge].style.backgroundColor = "#f9f871";
+         if(hero.charge === 10) chargeContainer.children[0].style.color = "#f9f871";
          chargeTime = 0;
       }
 
@@ -239,6 +240,7 @@ function update() {
       camera.rotation.x += delta * 4.9 * Math.PI / 180;
    } else if (gameState.win && gameState.level < 5 && hero.y >= 11) {
       document.querySelector('.modal-container--next').classList.remove('invisible');
+      hero.y = -0.2;
    }
 
 }
@@ -251,22 +253,26 @@ function render() {
 
 // =============================================================================
 
+let debouncePlay = false;
 document.querySelectorAll('.play-btn').forEach(el => {
    el.addEventListener('click', play, false);
 });
 
 function play() {
-   if (document.querySelector('.modal-container').classList.contains("invisible") === false) {
-      document.querySelector('.modal-container').classList.add("invisible");
-      if (gameState.level === 1) {
-         initAudio();
-      }
-   } else if (document.querySelector('.modal-container--next').classList.contains("invisible") === false && gameState.level + 1 <= 5) {
 
-      gameState.level++;
-      import(`./levels/level${gameState.level}.js`)
+   if(!debouncePlay) {
+      debouncePlay = true;
+      if (document.querySelector('.modal-container').classList.contains("invisible") === false) {
+         document.querySelector('.modal-container').classList.add("invisible");
+         if (gameState.level === 1) {
+            initAudio();
+         }
+      } else if (document.querySelector('.modal-container--next').classList.contains("invisible") === false && gameState.level + 1 <= 5) {
+
+         gameState.level++;
+         document.querySelector('.modal-container--next').classList.add("invisible");
+         import(`./levels/level${gameState.level}.js`)
          .then(map => {
-            document.querySelector('.modal-container--next').classList.add("invisible");
             gameState.win = false;
             gameState.defeat = false;
 
@@ -289,11 +295,11 @@ function play() {
             console.log(error);
          })
 
-   } else if (document.querySelector('.modal-container--defeat').classList.contains("invisible") === false) {
+      } else if (document.querySelector('.modal-container--defeat').classList.contains("invisible") === false) {
 
-      import(`./levels/level${gameState.level}.js`)
+         document.querySelector('.modal-container--defeat').classList.add("invisible");
+         import(`./levels/level${gameState.level}.js`)
          .then(map => {
-            document.querySelector('.modal-container--defeat').classList.add("invisible");
             gameState.win = false;
             gameState.defeat = false;
 
@@ -316,12 +322,12 @@ function play() {
             console.log(error);
          })
 
-   } else if (document.querySelector('.modal-container--win').classList.contains("invisible") === false) {
+      } else if (document.querySelector('.modal-container--win').classList.contains("invisible") === false) {
 
       gameState.level = 1;
+      document.querySelector('.modal-container--win').classList.add("invisible");
       import(`./levels/level${gameState.level}.js`)
          .then(map => {
-            document.querySelector('.modal-container--win').classList.add("invisible");
             gameState.win = false;
             gameState.defeat = false;
 
@@ -345,7 +351,26 @@ function play() {
          })
 
    }
+   }
+
+   setTimeout(() => { debouncePlay = false; }, 5000);
 }
+
+// =============================================================================
+
+document.querySelector('#toggle-sound').addEventListener('click', () => {
+   // --
+});
+
+document.querySelector('#toggle-music').addEventListener('click', () => {
+   if (music.isPlaying) {
+      music.pause();
+      document.querySelector('#toggle-music').style.color = '#7cb2c9';
+   } else {
+      music.play();
+      document.querySelector('#toggle-music').style.color = '#f9f871';
+   }
+});
 
 // =============================================================================
 
@@ -382,7 +407,7 @@ const onKeyDown = (event) => {
          play();
          break;
    }
-};
+}
 const onKeyUp = (event) => {
    switch (event.keyCode) {
       case 38: // up
@@ -406,15 +431,20 @@ const onKeyUp = (event) => {
          missileMovement.shouldMove = false;
          break;
    }
-};
+}
 const onWindowResize = () => {
    camera.aspect = container.clientWidth / container.clientHeight;
    camera.updateProjectionMatrix();
    renderer.setSize(container.clientWidth, container.clientHeight);
 }
+const onError = () => {
+   alert("Hoporo doesn't support your browser. Try latest version of Google Chrome, Firefox, Safari or Opera.");
+   return false;
+}
 window.addEventListener('keydown', onKeyDown, false);
 window.addEventListener('keyup', onKeyUp, false);
 window.addEventListener('resize', onWindowResize);
+window.addEventListener("error", onError);
 
 function getModel() {
    const loader = new GLTFLoader();
@@ -441,6 +471,7 @@ function initAudio() {
       music.setBuffer(buffer);
       music.setLoop(true);
       music.setVolume(0.4);
+      music.duration = 229;
       music.play();
    });
 

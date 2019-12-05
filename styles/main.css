@@ -50,22 +50,29 @@ body {
    text-align: center;
 }
 
+.modal div {
+   display: inline-block;
+   width: 45%;
+   margin-top: 20px;
+}
+
 .modal button {
    display: block;
    border: none;
    outline: none;
-   margin: 40px auto 0;
+   margin: 30px auto 0;
    padding: 15px 30px;
    font-family: 'Signika', sans-serif;
    font-weight: 700;
    font-size: 1.1rem;
    color: #ffffff;
-   background-color: #7cb2c9;
+   background-color: #01C1B2;
+   border-radius: 5px;
    cursor: pointer;
    text-transform: uppercase;
 }
 .modal button:hover {
-   background-color: #4D96B7;
+   background-color: #00B0A1;
 }
 
 .info {
@@ -90,6 +97,26 @@ body {
    margin-right: 20px;
 }
 
+.icons {
+   position: absolute;
+   right: 0;
+   top: 0;
+   z-index: 1;
+   padding: 15px 20px;
+}
+
+.icons i {
+   margin-right: 10px;
+   font-size: 1.4rem;
+   color: #f9f871;
+   text-shadow:
+   -1px -1px 0 #364954,
+    1px -1px 0 #364954,
+    -1px 1px 0 #364954,
+     1px 1px 0 #364954;
+   cursor: pointer;
+}
+
 #charge {
    position: absolute;
    right: 0;
@@ -97,7 +124,7 @@ body {
    z-index: 1;
    list-style-type: none;
    margin: 0;
-   color: #f9f871;
+   color: #7cb2c9;
    font-family: 'Signika', sans-serif;
    font-weight: 700;
    font-size: 1.6rem;
@@ -122,8 +149,6 @@ body {
 
 #scene-container {
    position: absolute;
-   /* top: 50px; */
-   /* height: calc(100% - 100px); */
    height: 100%;
    width: 100%;
    z-index: 0;
