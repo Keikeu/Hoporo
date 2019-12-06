@@ -55,7 +55,7 @@ let heroMovement = {
 
 let crystals, walls, gates, birds, spikes, arrows, slimes, heros, starts, missiles;
 let start, hero, missile;
-let music, killSound;
+let music, killSound, isSoundOn = true;
 
 let container, chargeContainer, scene, camera, renderer;
 let clock = new Clock(), delta = 0, elapsed = 0, chargeTime = 0, deployTime = 0;
@@ -359,7 +359,17 @@ function play() {
 // =============================================================================
 
 document.querySelector('#toggle-sound').addEventListener('click', () => {
-   // --
+   if (isSoundOn) {
+      isSoundOn = false;
+      killSound.setVolume(0);
+      hero.soundOff();
+      document.querySelector('#toggle-sound').style.color = '#7cb2c9';
+   } else {
+      isSoundOn = true;
+      killSound.setVolume(0.7);
+      hero.soundOn();
+      document.querySelector('#toggle-sound').style.color = '#f9f871';
+   }
 });
 
 document.querySelector('#toggle-music').addEventListener('click', () => {
@@ -438,8 +448,8 @@ const onWindowResize = () => {
    renderer.setSize(container.clientWidth, container.clientHeight);
 }
 const onError = () => {
-   alert("Hoporo doesn't support your browser. Try latest version of Google Chrome, Firefox, Safari or Opera.");
-   return false;
+   // alert("Hoporo doesn't support your browser. Try latest version of Google Chrome, Firefox, Safari or Opera.");
+   // return false;
 }
 window.addEventListener('keydown', onKeyDown, false);
 window.addEventListener('keyup', onKeyUp, false);

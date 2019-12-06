@@ -297,6 +297,23 @@ export class Hero {
       }
       return false;
    }
+
+   soundOff() {
+      shootSound.setVolume(0);
+      jumpSound.setVolume(0);
+      grabSound.setVolume(0);
+      deploySound.setVolume(0);
+      ascendSound.setVolume(0);
+   }
+
+   soundOn() {
+      shootSound.setVolume(0.6);
+      jumpSound.setVolume(1.0);
+      grabSound.setVolume(0.6);
+      deploySound.setVolume(0.6);
+      ascendSound.setVolume(0.6);
+   }
+
 }
 
 function calcY(x) {
