@@ -481,7 +481,6 @@ function initAudio() {
       music.setBuffer(buffer);
       music.setLoop(true);
       music.setVolume(0.4);
-      music.duration = 229;
       music.play();
    });
 
