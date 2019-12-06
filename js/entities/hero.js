@@ -359,6 +359,9 @@ export function initHero(scene, map, heros, missiles) {
             if ( node instanceof Mesh ) { node.castShadow = true; }
          });
          heros.push( new Hero(map, map.startMap[0], -0.2, map.startMap[1], heroModel.scene, missileModel.scene) );
+         if (!JSON.parse(localStorage.getItem('sound'))) {
+            heros[0].soundOff();
+         }
          scene.add( heros[0].mesh );
          missiles.push( heros[0].missile )
          scene.add( heros[0].missile );

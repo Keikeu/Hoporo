@@ -23,14 +23,14 @@ import {initHero}     from './entities/hero.js';
 import {initWalls}    from './entities/wall.js';
 import {initGates}    from './entities/gate.js';
 import {initCrystals} from './entities/crystal.js';
-import {initBirds}   from './entities/bird.js';
+import {initBirds}    from './entities/bird.js';
 import {initSpikes}   from './entities/spike.js';
 import {initArrows}   from './entities/arrow.js';
 import {initSlimes}   from './entities/slime.js';
 
 
 let gameState = {
-   level: 1,
+   level: JSON.parse(localStorage.getItem('level')) || 1,
    win: false,
    defeat: false,
    map: null
@@ -55,23 +55,10 @@ let heroMovement = {
 
 let crystals, walls, gates, birds, spikes, arrows, slimes, heros, starts, missiles;
 let start, hero, missile;
-let music, killSound, isSoundOn = true;
+let music, killSound;
 
 let container, chargeContainer, scene, camera, renderer;
 let clock = new Clock(), delta = 0, elapsed = 0, chargeTime = 0, deployTime = 0;
-
-import(`./levels/level${gameState.level}.js`)
-   .then(map => {
-      gameState.map = JSON.parse(JSON.stringify(map));
-      init();
-      renderer.setAnimationLoop(() => {
-         update();
-         render();
-      });
-   })
-   .catch(error => {
-      console.log(error);
-   })
 
 
 function init() {
@@ -250,139 +237,40 @@ function render() {
 }
 
 
+// ============================ AUDIO CONTROL ==================================
 
-// =============================================================================
+document.querySelector('#toggle-sound').addEventListener('click', toggleSound);
+document.querySelector('#toggle-music').addEventListener('click', toggleMusic);
 
-let debouncePlay = false;
-document.querySelectorAll('.play-btn').forEach(el => {
-   el.addEventListener('click', play, false);
-});
-
-function play() {
-
-   if(!debouncePlay) {
-      debouncePlay = true;
-      if (document.querySelector('.modal-container').classList.contains("invisible") === false) {
-         document.querySelector('.modal-container').classList.add("invisible");
-         if (gameState.level === 1) {
-            initAudio();
-         }
-      } else if (document.querySelector('.modal-container--next').classList.contains("invisible") === false && gameState.level + 1 <= 5) {
-
-         gameState.level++;
-         document.querySelector('.modal-container--next').classList.add("invisible");
-         import(`./levels/level${gameState.level}.js`)
-         .then(map => {
-            gameState.win = false;
-            gameState.defeat = false;
-
-            gameState.map = JSON.parse(JSON.stringify(map));
-            container.removeChild(container.firstChild);
-            while (scene.children.length > 0) {
-               scene.remove(scene.children[0]);
-            }
-            scene.dispose();
-            renderer.dispose();
-
-            init();
-            renderer.render(scene, camera);
-            renderer.setAnimationLoop(() => {
-               update();
-               render();
-            });
-         })
-         .catch(error => {
-            console.log(error);
-         })
-
-      } else if (document.querySelector('.modal-container--defeat').classList.contains("invisible") === false) {
-
-         document.querySelector('.modal-container--defeat').classList.add("invisible");
-         import(`./levels/level${gameState.level}.js`)
-         .then(map => {
-            gameState.win = false;
-            gameState.defeat = false;
-
-            gameState.map = JSON.parse(JSON.stringify(map));
-            container.removeChild(container.firstChild);
-            while (scene.children.length > 0) {
-               scene.remove(scene.children[0]);
-            }
-            scene.dispose();
-            renderer.dispose();
-
-            init();
-            renderer.render(scene, camera);
-            renderer.setAnimationLoop(() => {
-               update();
-               render();
-            });
-         })
-         .catch(error => {
-            console.log(error);
-         })
-
-      } else if (document.querySelector('.modal-container--win').classList.contains("invisible") === false) {
-
-      gameState.level = 1;
-      document.querySelector('.modal-container--win').classList.add("invisible");
-      import(`./levels/level${gameState.level}.js`)
-         .then(map => {
-            gameState.win = false;
-            gameState.defeat = false;
-
-            gameState.map = JSON.parse(JSON.stringify(map));
-            container.removeChild(container.firstChild);
-            while (scene.children.length > 0) {
-               scene.remove(scene.children[0]);
-            }
-            scene.dispose();
-            renderer.dispose();
-
-            init();
-            renderer.render(scene, camera);
-            renderer.setAnimationLoop(() => {
-               update();
-               render();
-            });
-         })
-         .catch(error => {
-            console.log(error);
-         })
-
-   }
-   }
-
-   setTimeout(() => { debouncePlay = false; }, 5000);
-}
-
-// =============================================================================
-
-document.querySelector('#toggle-sound').addEventListener('click', () => {
-   if (isSoundOn) {
-      isSoundOn = false;
+function toggleSound() {
+   if (JSON.parse(localStorage.getItem('sound'))) {
+      localStorage.setItem('sound', false);
       killSound.setVolume(0);
       hero.soundOff();
       document.querySelector('#toggle-sound').style.color = '#7cb2c9';
    } else {
-      isSoundOn = true;
+      localStorage.setItem('sound', true);
       killSound.setVolume(0.7);
       hero.soundOn();
       document.querySelector('#toggle-sound').style.color = '#f9f871';
    }
-});
-
-document.querySelector('#toggle-music').addEventListener('click', () => {
-   if (music.isPlaying) {
+}
+function toggleMusic() {
+   if (JSON.parse(localStorage.getItem('music'))) {
+      localStorage.setItem('music', false);
       music.pause();
       document.querySelector('#toggle-music').style.color = '#7cb2c9';
    } else {
+      localStorage.setItem('music', true);
       music.play();
       document.querySelector('#toggle-music').style.color = '#f9f871';
    }
-});
+}
 
-// =============================================================================
+
+// ============================ LISTENERS ======================================
+
+let debouncePlay = false;
 
 const onKeyDown = (event) => {
    switch (event.keyCode) {
@@ -448,13 +336,83 @@ const onWindowResize = () => {
    renderer.setSize(container.clientWidth, container.clientHeight);
 }
 const onError = () => {
-   // alert("Hoporo doesn't support your browser. Try latest version of Google Chrome, Firefox, Safari or Opera.");
-   // return false;
+   alert("Hoporo doesn't support your browser. Try latest version of Google Chrome, Firefox, Safari or Opera.");
+   return false;
 }
-window.addEventListener('keydown', onKeyDown, false);
-window.addEventListener('keyup', onKeyUp, false);
+const play = () => {
+
+   if (!debouncePlay) {
+      debouncePlay = true;
+      if (document.querySelector('.modal-container').classList.contains("invisible") === false) {
+
+         initAudio();
+         localStorage.setItem('level', gameState.level);
+         document.querySelector('.modal-container').classList.add("invisible");
+         initLevel();
+
+      } else if (document.querySelector('.modal-container--next').classList.contains("invisible") === false && gameState.level + 1 <= 5) {
+
+         gameState.level++;
+         localStorage.setItem('level', gameState.level);
+         document.querySelector('.modal-container--next').classList.add("invisible");
+         initLevel();
+
+      } else if (document.querySelector('.modal-container--defeat').classList.contains("invisible") === false) {
+
+         document.querySelector('.modal-container--defeat').classList.add("invisible");
+         initLevel();
+
+      } else if (document.querySelector('.modal-container--win').classList.contains("invisible") === false) {
+
+         gameState.level = 1;
+         localStorage.setItem('level', gameState.level);
+         document.querySelector('.modal-container--win').classList.add("invisible");
+         initLevel();
+
+      }
+   }
+
+   setTimeout(() => { debouncePlay = false; }, 3000);
+}
+
+window.addEventListener('keydown', onKeyDown);
+window.addEventListener('keyup', onKeyUp);
 window.addEventListener('resize', onWindowResize);
 window.addEventListener("error", onError);
+document.querySelectorAll('.play-btn').forEach(el => {
+   el.addEventListener('click', play);
+});
+
+
+// ============================ INITIALIZATION =================================
+
+function initLevel() {
+   import(`./levels/level${gameState.level}.js`)
+   .then(map => {
+      gameState.win = false;
+      gameState.defeat = false;
+
+      gameState.map = JSON.parse(JSON.stringify(map));
+      if (container) {
+         container.removeChild(container.firstChild);
+         while (scene.children.length > 0) {
+            scene.remove(scene.children[0]);
+         }
+         scene.dispose();
+         renderer.dispose();
+      }
+
+      init();
+      renderer.render(scene, camera);
+      renderer.setAnimationLoop(() => {
+         update();
+         render();
+      });
+   })
+   .catch(error => {
+      console.log(error);
+   })
+}
 
 function getModel() {
    const loader = new GLTFLoader();
@@ -484,6 +442,8 @@ function initAudio() {
       music.play();
    });
 
+   localStorage.setItem('sound', true);
+   localStorage.setItem('music', true);
 }
 
 function initDecorations(scene, level) {
@@ -558,9 +518,6 @@ function initRenderer() {
    renderer.shadowMap.enabled = true;
    renderer.shadowMap.type = PCFSoftShadowMap;
 }
-
-// =============================================================================
-
 
 
 
