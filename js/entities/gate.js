@@ -6,19 +6,19 @@ import {
 
 import {gatesMap, wallsMap} from '../levels/level1.js';
 
-const geo = new BoxBufferGeometry( 1, 0.3, 0.1 );
-const mat = new MeshLambertMaterial( { color: 0x27BAA7 } );
+const geo = new BoxBufferGeometry(1, 0.3, 0.1);
+const mat = new MeshLambertMaterial({color: 0x27BAA7});
 
 export class Gate {
-   constructor( map, x, y, z ) {
+   constructor(map, x, y, z) {
       this._map = map;
       this._x = x;
       this._y = y;
       this._z = z;
       this._alive = true;
 
-      this._mesh = new Mesh( geo, mat );
-      this._mesh.position.set( x, y, z );
+      this._mesh = new Mesh(geo, mat);
+      this._mesh.position.set(x, y, z);
       this._mesh.castShadow = true;
       this._mesh.receiveShadow = false;
       this.rotate();
@@ -37,13 +37,13 @@ export class Gate {
    set alive(alive)  { this._alive = alive; }
 
    die(scene) {
-      this.mesh.layers.set( 1 );
+      this.mesh.layers.set(1);
       scene.remove(this.mesh);
       this.alive = false;
    }
 
    rotate() {
-      if(this.map.wallsMap[this.x-1][this.z]) {
+      if (this.map.wallsMap[this.x - 1][this.z]) {
          this.mesh.rotation.y = 0;
       } else {
          this.mesh.rotation.y = 90 * Math.PI / 180;
@@ -52,11 +52,11 @@ export class Gate {
 }
 
 export function initGates(scene, map, gates) {
-   for(let i = 0; i < map.gatesMap.length; i++) {
-      for(let j = 0; j < map.gatesMap[i].length; j++) {
-         if(map.gatesMap[i][j] === 1) {
-            gates.push( new Gate( map, i, 0, j ) );
-            scene.add( gates[gates.length-1].mesh );
+   for (let i = 0; i < map.gatesMap.length; i++) {
+      for (let j = 0; j < map.gatesMap[i].length; j++) {
+         if (map.gatesMap[i][j] === 1) {
+            gates.push(new Gate(map, i, 0, j));
+            scene.add(gates[gates.length - 1].mesh);
          }
       }
    }

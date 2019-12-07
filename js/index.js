@@ -188,9 +188,11 @@ function update() {
       }
 
       if (missile.position.x >= 0 && missile.position.x < gameState.map.m && missile.position.z >= 0 && missile.position.z < gameState.map.n) {
-         if (gameState.map.wallsMap[Math.round(missile.position.x)][Math.round(missile.position.z)] === 1) {
-            hero.killMissile();
-         }
+         walls.forEach((wall) => {
+            if (wall.x === parseFloat(missile.position.x) && wall.z === parseFloat(missile.position.z)) {
+               hero.killMissile();
+            }
+         });
          gates.forEach((gate) => {
             if (gate.x === parseFloat(missile.position.x) && gate.z === parseFloat(missile.position.z)) {
                gate.die(scene);
@@ -272,7 +274,7 @@ function toggleMusic() {
 
 let debouncePlay = false;
 
-const onKeyDown = (event) => {
+function onKeyDown(event) {
    switch (event.keyCode) {
       case 38: // up
       case 87: // w
@@ -306,7 +308,7 @@ const onKeyDown = (event) => {
          break;
    }
 }
-const onKeyUp = (event) => {
+function onKeyUp(event) {
    switch (event.keyCode) {
       case 38: // up
       case 87: // w
@@ -330,17 +332,16 @@ const onKeyUp = (event) => {
          break;
    }
 }
-const onWindowResize = () => {
+function onWindowResize() {
    camera.aspect = container.clientWidth / container.clientHeight;
    camera.updateProjectionMatrix();
    renderer.setSize(container.clientWidth, container.clientHeight);
 }
-const onError = () => {
+function onError() {
    alert("Hoporo doesn't support your browser. Try latest version of Google Chrome, Firefox, Safari or Opera.");
    return false;
 }
-const play = () => {
-
+function play () {
    if (!debouncePlay) {
       debouncePlay = true;
       if (document.querySelector('.modal-container').classList.contains("invisible") === false) {
@@ -381,7 +382,7 @@ window.addEventListener('resize', onWindowResize);
 window.addEventListener("error", onError);
 document.querySelectorAll('.play-btn').forEach(el => {
    el.addEventListener('click', play);
-});
+});3
 
 
 // ============================ INITIALIZATION =================================
@@ -400,6 +401,10 @@ function initLevel() {
          }
          scene.dispose();
          renderer.dispose();
+         for(let i = 1; i <= 10; i++) {
+            document.querySelector( '#charge' ).children[i].style.backgroundColor = "#7cb2c9";
+         }
+         document.querySelector( '#charge' ).children[0].style.color = "#7cb2c9";
       }
 
       init();

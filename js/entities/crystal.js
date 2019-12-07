@@ -4,8 +4,8 @@ import {
    Mesh,
 } from '../three/three.module.js';
 
-const geo = new IcosahedronBufferGeometry( 0.25, 0 );
-const mat = new MeshLambertMaterial( { color: 0xf06c7c } );
+const geo = new IcosahedronBufferGeometry(0.25, 0);
+const mat = new MeshLambertMaterial({color: 0xf06c7c});
 
 export class Crystal {
    constructor(map, x, y, z) {
@@ -16,8 +16,8 @@ export class Crystal {
       this._deployed = false;
       this._alive = true;
 
-      this._mesh = new Mesh( geo, mat );
-      this._mesh.position.set( x, y, z );
+      this._mesh = new Mesh(geo, mat);
+      this._mesh.position.set(x, y, z);
       this._mesh.castShadow = true;
       this._mesh.receiveShadow = true;
    }
@@ -43,11 +43,11 @@ export class Crystal {
 }
 
 export function initCrystals(scene, map, crystals) {
-   for(let i = 0; i < map.crystalsMap.length; i++) {
-      for(let j = 0; j < map.crystalsMap[i].length; j++) {
-         if(map.crystalsMap[i][j] === 1) {
-            crystals.push( new Crystal(map, i, 0.75, j) );
-            scene.add( crystals[crystals.length - 1].mesh );
+   for (let i = 0; i < map.crystalsMap.length; i++) {
+      for (let j = 0; j < map.crystalsMap[i].length; j++) {
+         if (map.crystalsMap[i][j] === 1) {
+            crystals.push(new Crystal(map, i, 0.75, j));
+            scene.add(crystals[crystals.length - 1].mesh);
          }
       }
    }

@@ -14,7 +14,6 @@ const listener = new AudioListener();
 const audioLoader = new AudioLoader();
 let shootSound, jumpSound, grabSound, deploySound, ascendSound;
 
-
 export class Hero {
    constructor(map, x, y, z, heroModel, missileModel) {
       this._map = map;
@@ -33,12 +32,12 @@ export class Hero {
       this._mesh.castShadow = true;
       this._mesh.receiveShadow = false;
 
-      const bbox = new Box3().setFromObject( this._mesh );
-      const cent = bbox.getCenter( new Vector3() );
-      const size = bbox.getSize( new Vector3() );
-      const maxAxis = Math.max( size.x, size.y, size.z );
-      this._mesh.scale.multiplyScalar( 1.0 / maxAxis );
-      bbox.setFromObject( this._mesh );
+      const bbox = new Box3().setFromObject(this._mesh);
+      const cent = bbox.getCenter(new Vector3());
+      const size = bbox.getSize(new Vector3());
+      const maxAxis = Math.max(size.x, size.y, size.z);
+      this._mesh.scale.multiplyScalar(1.0 / maxAxis);
+      bbox.setFromObject(this._mesh);
 
       this._missile = missileModel;
       this._missile.scale.set(2, 2, 2);
@@ -64,7 +63,7 @@ export class Hero {
       this._x = x;
       this.mesh.position.x = x;
       this.crystals.forEach(c => {
-         if(!c.deployed)
+         if (!c.deployed)
             c.x = x;
       });
    }
@@ -72,7 +71,7 @@ export class Hero {
       this._y = y;
       this.mesh.position.y = y;
       this.crystals.forEach((c, i) => {
-         if(!c.deployed)
+         if (!c.deployed)
             c.y = y + 0.5 + 0.25 * i;
       });
    }
@@ -80,7 +79,7 @@ export class Hero {
       this._z = z;
       this.mesh.position.z = z;
       this.crystals.forEach(c => {
-         if(!c.deployed)
+         if (!c.deployed)
             c.z = z;
       });
    }
@@ -95,10 +94,10 @@ export class Hero {
       let destination = sign === 1 ? Math.ceil(pos) : Math.floor(pos);
       let distance = Math.abs(destination - pos);
 
-      if(delta * speed >= distance && distance != 0.00) {
+      if (delta * speed >= distance && distance != 0.00) {
          return (parseFloat(pos) + sign * distance).toFixed(2);
       }
-      if(delta * speed > 1 && distance == 0.00) {
+      if (delta * speed > 1 && distance == 0.00) {
          return (parseFloat(pos) + sign * 1).toFixed(2);
       }
       return (parseFloat(pos) + sign * delta * speed).toFixed(2);
@@ -112,7 +111,7 @@ export class Hero {
       } else if (hM.isDashing) {
 
          hM.shouldDash = false;
-         switch(hM.dashDirection) {
+         switch (hM.dashDirection) {
             case "up":
                this.z = this.tween(this.z, -1, hM.delta, 4.5);
                break;
@@ -131,7 +130,7 @@ export class Hero {
 
          hM.isDashing = true;
          hM.isMoving = false;
-         switch(hM.dashDirection) {
+         switch (hM.dashDirection) {
             case "up":
                this.z = this.tween(this.z, -1, hM.delta, 4.5);
                break;
@@ -148,7 +147,7 @@ export class Hero {
 
       } else if (hM.isMoving) {
 
-         switch(this.direction) {
+         switch (this.direction) {
             case "up":
                this.z = this.tween(this.z, -1, hM.delta);
                this.y = calcY(this.z % 1);
@@ -172,7 +171,7 @@ export class Hero {
          this.direction = hM.moveDirection;
          hM.isMoving = true;
          jumpSound.play();
-         switch(this.direction) {
+         switch (this.direction) {
             case "up":
                this.z = this.tween(this.z, -1, hM.delta);
                this.mesh.rotation.y = -2;
@@ -193,7 +192,7 @@ export class Hero {
 
       } else if (hM.shouldMove && !this.isMovePossible(hM.moveDirection)) {
          this.direction = hM.moveDirection;
-         switch(this.direction) {
+         switch (this.direction) {
             case "up":
                this.mesh.rotation.y = -2;
                break;
@@ -213,8 +212,8 @@ export class Hero {
 
 
    shoot(mM) {
-      if(mM.isMoving) {
-         switch(mM.direction) {
+      if (mM.isMoving) {
+         switch (mM.direction) {
             case "up":
                this.missile.position.z = this.tween(this.missile.position.z, -1, mM.delta, 6);
                break;
@@ -229,36 +228,36 @@ export class Hero {
                break;
          }
       }
-      if(mM.shouldMove && this.charge === 10) {
+      if (mM.shouldMove && this.charge === 10) {
          this.missile.layers.set(0);
          this.missile.position.set(this.x, 0, this.z);
          this.charge = 0;
          mM.isMoving = true;
-         for(let i = 1; i <= 10; i++) {
-            document.querySelector( '#charge' ).children[i].style.backgroundColor = "#7cb2c9";
+         for (let i = 1; i <= 10; i++) {
+            document.querySelector('#charge').children[i].style.backgroundColor = "#7cb2c9";
          }
-         document.querySelector( '#charge' ).children[0].style.color = "#7cb2c9";
+         document.querySelector('#charge').children[0].style.color = "#7cb2c9";
          shootSound.play();
       }
    }
 
    grabCrystal(scene) {
-      this.crystals.push( new Crystal(this.map, this.x, this.y + 0.5 + 0.25 * this.crystals.length, this.z) );
-      scene.add( this.crystals[this.crystals.length - 1].mesh );
+      this.crystals.push(new Crystal(this.map, this.x, this.y + 0.5 + 0.25 * this.crystals.length, this.z));
+      scene.add(this.crystals[this.crystals.length - 1].mesh);
       this.speed = calcSpeed(this.crystals.length);
       grabSound.play();
    }
 
    deployCrystal(scene, gameState) {
-      if(this.crystals.length && this.crystals[this.crystals.length - 1].deployed === false) {
-         document.querySelector( '#crystals' ).innerHTML -= 1;
+      if (this.crystals.length && this.crystals[this.crystals.length - 1].deployed === false) {
+         document.querySelector('#crystals').innerHTML -= 1;
          this.crystals[this.crystals.length - 1].deployed = true;
          deploySound.play();
          setTimeout(() => {
             this.crystals[this.crystals.length - 1].die(scene);
             this.crystals.pop();
             this.speed = calcSpeed(this.crystals.length);
-            if(this.map.crystalsNumber === ++this.deployedCrystals) {
+            if (this.map.crystalsNumber === ++this.deployedCrystals) {
                gameState.win = true;
                ascendSound.play();
                if (gameState.level === 5) {
@@ -270,6 +269,7 @@ export class Hero {
    }
 
    killMissile() {
+      console.log("kill missile")
       this.missile.layers.set(1);
       this.missile.position.set(100, 0, 100);
    }
@@ -278,21 +278,21 @@ export class Hero {
       const x = parseInt(this.x);
       const z = parseInt(this.z);
 
-      if(direction === "up") {
-         if(this.isObstacle(x, z-1)) { return false; }
-      } else if(direction === "right") {
-         if(this.isObstacle(x+1, z)) { return false; }
-      } else if(direction === "down") {
-         if(this.isObstacle(x, z+1)) { return false; }
-      } else if(direction === "left") {
-         if(this.isObstacle(x-1, z)) { return false; }
+      if (direction === "up") {
+         if (this.isObstacle(x, z-1)) { return false; }
+      } else if (direction === "right") {
+         if (this.isObstacle(x+1, z)) { return false; }
+      } else if (direction === "down") {
+         if (this.isObstacle(x, z+1)) { return false; }
+      } else if (direction === "left") {
+         if (this.isObstacle(x-1, z)) { return false; }
       }
 
       return true;
    }
 
    isObstacle(x, z) {
-      if(x < 0 || z < 0 || x >= this.map.m || z >= this.map.n || !this.map.groundMap[x][z] || this.map.gatesMap[x][z]) {
+      if (x < 0 || z < 0 || x >= this.map.m || z >= this.map.n || !this.map.groundMap[x][z] || this.map.gatesMap[x][z]) {
          return true;
       }
       return false;
@@ -321,30 +321,29 @@ function calcY(x) {
 }
 
 function calcSpeed(x) {
-   if(x < 3)
+   if (x < 3)
       return 2.2 - 0.05 * x;
-   else if(x < 11)
+   else if (x < 11)
       return 2 - 0.1 * (x - 3);
    else
       return 1.3;
 }
 
-
 function getHeroModel() {
    const loader = new GLTFLoader();
    return new Promise(resolve => {
-      loader.load( './media/models/hero/model.gltf', resolve, undefined, function ( error ) {
-         console.error( error );
-      } );
+      loader.load('./media/models/hero/model.gltf', resolve, undefined, function(error) {
+         console.error(error);
+      });
    });
 }
 
 function getMissileModel() {
    const loader = new GLTFLoader();
    return new Promise(resolve => {
-      loader.load( './media/models/missile/model.gltf', resolve, undefined, function ( error ) {
-         console.error( error );
-      } );
+      loader.load('./media/models/missile/model.gltf', resolve, undefined, function(error) {
+         console.error(error);
+      });
    });
 }
 
@@ -352,25 +351,29 @@ function getMissileModel() {
 export function initHero(scene, map, heros, missiles) {
    getHeroModel().then(heroModel => {
       getMissileModel().then(missileModel => {
-         heroModel.scene.traverse( function( node ) {
-            if ( node instanceof Mesh ) { node.castShadow = true; }
+         heroModel.scene.traverse(function(node) {
+            if (node instanceof Mesh) {
+               node.castShadow = true;
+            }
          });
-         missileModel.scene.traverse( function( node ) {
-            if ( node instanceof Mesh ) { node.castShadow = true; }
+         missileModel.scene.traverse(function(node) {
+            if (node instanceof Mesh) {
+               node.castShadow = true;
+            }
          });
-         heros.push( new Hero(map, map.startMap[0], -0.2, map.startMap[1], heroModel.scene, missileModel.scene) );
+         heros.push(new Hero(map, map.startMap[0], -0.2, map.startMap[1], heroModel.scene, missileModel.scene));
          if (!JSON.parse(localStorage.getItem('sound'))) {
             heros[0].soundOff();
          }
-         scene.add( heros[0].mesh );
-         missiles.push( heros[0].missile )
-         scene.add( heros[0].missile );
+         scene.add(heros[0].mesh);
+         missiles.push(heros[0].missile)
+         scene.add(heros[0].missile);
       });
    });
 
-   shootSound  = new Audio(listener);
-   jumpSound   = new Audio(listener);
-   grabSound   = new Audio(listener);
+   shootSound = new Audio(listener);
+   jumpSound = new Audio(listener);
+   grabSound = new Audio(listener);
    deploySound = new Audio(listener);
    ascendSound = new Audio(listener);
 

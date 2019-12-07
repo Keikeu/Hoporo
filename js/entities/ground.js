@@ -5,9 +5,9 @@ import {
    Mesh,
 } from '../three/three.module.js';
 
-const geo = new PlaneBufferGeometry( 1, 1 );
-const tex = new TextureLoader().load( './media/ground.png' );
-const mat = new MeshLambertMaterial( { map: tex } );
+const geo = new PlaneBufferGeometry(1, 1);
+const tex = new TextureLoader().load('./media/ground.png');
+const mat = new MeshLambertMaterial({map: tex});
 
 export class Ground {
    constructor(map, x, y, z) {
@@ -16,8 +16,8 @@ export class Ground {
       this._y = y;
       this._z = z;
 
-      this._mesh = new Mesh( geo, mat );
-      this._mesh.position.set( x, y, z );
+      this._mesh = new Mesh(geo, mat);
+      this._mesh.position.set(x, y, z);
       this._mesh.rotation.x = -90 * Math.PI / 180;
       this._mesh.castShadow = false;
       this._mesh.receiveShadow = true;
@@ -35,10 +35,10 @@ export class Ground {
 }
 
 export function initGround(scene, map) {
-   for(let i = 0; i < map.groundMap.length; i++) {
-      for(let j = 0; j < map.groundMap[i].length; j++) {
-         if(map.groundMap[i][j] === 1) {
-            scene.add( new Ground(map, i, -0.501, j).mesh );
+   for (let i = 0; i < map.groundMap.length; i++) {
+      for (let j = 0; j < map.groundMap[i].length; j++) {
+         if (map.groundMap[i][j] === 1) {
+            scene.add(new Ground(map, i, -0.501, j).mesh);
          }
       }
    }

@@ -6,9 +6,9 @@ import {
    Quaternion,
 } from '../three/three.module.js';
 
-const geo = new PlaneBufferGeometry( 1, 1 );
-const tex = new TextureLoader().load( './media/arrow.png' );
-const mat = new MeshLambertMaterial( { map: tex } );
+const geo = new PlaneBufferGeometry(1, 1);
+const tex = new TextureLoader().load('./media/arrow.png');
+const mat = new MeshLambertMaterial({map: tex});
 
 export class Arrow {
    constructor(map, x, y, z, direction) {
@@ -51,22 +51,22 @@ export class Arrow {
    get z()         { return this._z; }
    get direction() { return this._direction; }
 
-   set x(x)  { this._x = x; }
-   set y(y)  { this._y = y; }
-   set z(z)  { this._z = z; }
+   set x(x)                   { this._x = x; }
+   set y(y)                   { this._y = y; }
+   set z(z)                   { this._z = z; }
    set direction(direction)   { this._direction = direction; }
 
 }
 
 export function initArrows(scene, map, arrows) {
-   for(let i = 0; i < map.arrowsMap.length; i++) {
-      for(let j = 0; j < map.arrowsMap[i].length; j++) {
-         if(map.arrowsMap[i][j] !== 0) {
-            if(map.arrowsMap[i][j] === 1)      arrows.push( new Arrow(map, i, -0.5, j, "up") );
-            else if(map.arrowsMap[i][j] === 2) arrows.push( new Arrow(map, i, -0.5, j, "right") );
-            else if(map.arrowsMap[i][j] === 3) arrows.push( new Arrow(map, i, -0.5, j, "down") );
-            else if(map.arrowsMap[i][j] === 4) arrows.push( new Arrow(map, i, -0.5, j, "left") );
-            scene.add( arrows[arrows.length - 1].mesh );
+   for (let i = 0; i < map.arrowsMap.length; i++) {
+      for (let j = 0; j < map.arrowsMap[i].length; j++) {
+         if (map.arrowsMap[i][j] !== 0) {
+            if (map.arrowsMap[i][j] === 1) arrows.push(new Arrow(map, i, -0.5, j, "up"));
+            else if (map.arrowsMap[i][j] === 2) arrows.push(new Arrow(map, i, -0.5, j, "right"));
+            else if (map.arrowsMap[i][j] === 3) arrows.push(new Arrow(map, i, -0.5, j, "down"));
+            else if (map.arrowsMap[i][j] === 4) arrows.push(new Arrow(map, i, -0.5, j, "left"));
+            scene.add(arrows[arrows.length - 1].mesh);
          }
       }
    }

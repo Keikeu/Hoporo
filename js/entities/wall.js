@@ -4,8 +4,8 @@ import {
    Mesh,
 } from '../three/three.module.js';
 
-const geo = new BoxBufferGeometry( 1, 1, 1 );
-const mat = new MeshLambertMaterial( { color: 0xd9d4ca } );
+const geo = new BoxBufferGeometry(1, 1, 1);
+const mat = new MeshLambertMaterial({color: 0xd9d4ca});
 
 export class Wall {
    constructor(map, x, y, z) {
@@ -14,8 +14,8 @@ export class Wall {
       this._y = y;
       this._z = z;
 
-      this._mesh = new Mesh( geo, mat );
-      this._mesh.position.set( x, y, z );
+      this._mesh = new Mesh(geo, mat);
+      this._mesh.position.set(x, y, z);
       this._mesh.castShadow = true;
       this._mesh.receiveShadow = false;
    }
@@ -32,11 +32,11 @@ export class Wall {
 }
 
 export function initWalls(scene, map, walls) {
-   for(let i = 0; i < map.wallsMap.length; i++) {
-      for(let j = 0; j < map.wallsMap[i].length; j++) {
-         if(map.wallsMap[i][j] === 1) {
-            walls.push( new Wall(map, i, 0, j) );
-            scene.add( walls[walls.length - 1].mesh );
+   for (let i = 0; i < map.wallsMap.length; i++) {
+      for (let j = 0; j < map.wallsMap[i].length; j++) {
+         if (map.wallsMap[i][j] === 1) {
+            walls.push(new Wall(map, i, 0, j));
+            scene.add(walls[walls.length - 1].mesh);
          }
       }
    }
