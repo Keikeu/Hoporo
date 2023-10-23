@@ -1,69 +1,80 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hoporo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="./media/icon.png" type="image/png" />
+    <link href="./styles/main.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Signika:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/c74bd1d80e.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-<head>
-   <meta charset="UTF-8" />
-   <title>Hoporo</title>
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link rel="icon" href="./media/icon.png" type="image/png">
-   <link href="./styles/main.css" rel="stylesheet">
-   <link href="https://fonts.googleapis.com/css?family=Signika:400,700&display=swap" rel="stylesheet">
-   <script src="https://kit.fontawesome.com/c74bd1d80e.js" crossorigin="anonymous"></script>
-</head>
+  <body>
+    <div class="modal-container">
+      <div class="modal">
+        <h1>Welcome to Hoporo!</h1>
+        <p>
+          Collect all crystals [
+          <img src="./media/crystal.png" alt="crystal" width="20" /> ] and
+          deploy them at the starting square.
+        </p>
+        <p>
+          Use your magic charge to destroy gates and kill monsters. Keep in mind
+          that your weapon needs time to reload.
+        </p>
+        <div>
+          <img src="./media/keys.png" alt="arrows keys" width="100" />
+          <p>move</p>
+        </div>
+        <div>
+          <img src="./media/shift.png" alt="arrows keys" width="80" />
+          <p>shoot</p>
+        </div>
+        <button class="play-btn">Play</button>
+      </div>
+    </div>
+    <div class="modal-container modal-container--next invisible">
+      <div class="modal">
+        <h1>You did it!</h1>
+        <p>You pass to the next level.</p>
+        <button class="play-btn">Next level</button>
+      </div>
+    </div>
+    <div class="modal-container modal-container--defeat invisible">
+      <div class="modal">
+        <h1>You died</h1>
+        <p>I know it's hard, but don't give up.</p>
+        <button class="play-btn">Play again</button>
+      </div>
+    </div>
+    <div class="modal-container modal-container--win invisible">
+      <div class="modal">
+        <h1>Congratulations!</h1>
+        <p>You finished the entire game. Beer on me :)</p>
+        <button class="play-btn">Start over</button>
+      </div>
+    </div>
 
-<body>
-
-   <div class="modal-container">
-      <div class="modal">
-         <h1>Welcome to Hoporo!</h1>
-         <p>Collect all crystals [ <img src="./media/crystal.png" alt="crystal" width="20"/> ] and deploy them at the starting square.</p>
-         <p>Use your magic charge to destroy gates and kill monsters. Keep in mind that your weapon needs time to reload.</p>
-         <div>
-            <img src="./media/keys.png" alt="arrows keys" width="100"/>
-            <p>move</p>
-         </div>
-         <div>
-            <img src="./media/shift.png" alt="arrows keys" width="80"/>
-            <p>shoot</p>
-         </div>
-         <button class="play-btn">Play</button>
-      </div>
-   </div>
-   <div class="modal-container modal-container--next invisible">
-      <div class="modal">
-         <h1>You did it!</h1>
-         <p>You pass to the next level.</p>
-         <button class="play-btn">Next level</button>
-      </div>
-   </div>
-   <div class="modal-container modal-container--defeat invisible">
-      <div class="modal">
-         <h1>You died</h1>
-         <p>I know it's hard, but don't give up.</p>
-         <button class="play-btn">Play again</button>
-      </div>
-   </div>
-   <div class="modal-container modal-container--win invisible">
-      <div class="modal">
-         <h1>Congratulations!</h1>
-         <p>You finished the entire game. Beer on me :)</p>
-         <button class="play-btn">Start over</button>
-      </div>
-   </div>
-
-   <div class="icons">
+    <div class="icons">
       <i class="icons__item fas fa-volume-up" id="toggle-sound"></i>
       <i class="icons__item fas fa-music" id="toggle-music"></i>
-   </div>
+    </div>
 
-   <div class="info">
+    <div class="info">
       <div class="info__item">Level <span id="level">1</span></div>
       <div class="info__item">Crystals: <span id="crystals">4</span></div>
-   </div>
+    </div>
 
-   <div id="scene-container"></div>
+    <div id="scene-container"></div>
 
-   <ul id="charge">
+    <ul id="charge">
       <span>Charge:</span>
       <div class="charge__item"></div>
       <div class="charge__item"></div>
@@ -75,10 +86,8 @@
       <div class="charge__item"></div>
       <div class="charge__item"></div>
       <div class="charge__item"></div>
-   </ul>
+    </ul>
 
-   <script type="module" src="./js/index.js"></script>
-
-</body>
-
+    <script type="module" src="./js/index.js"></script>
+  </body>
 </html>
