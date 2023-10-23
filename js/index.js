@@ -120,7 +120,6 @@ function update() {
   heroMovement.delta = delta;
   missileMovement.delta = delta;
   chargeTime += delta;
-  deployTime += delta;
 
   if (!gameState.defeat && !gameState.win && heros[0]) {
     hero = heros[0];
@@ -203,13 +202,13 @@ function update() {
       }
     });
 
-    if (
-      start.x === parseFloat(hero.x) &&
-      start.z === parseFloat(hero.z) &&
-      deployTime > 1
-    ) {
-      hero.deployCrystal(scene, gameState);
-      deployTime = 0;
+    if (start.x === parseFloat(hero.x) && start.z === parseFloat(hero.z)) {
+      if (deployTime > 1) {
+        hero.deployCrystal(scene, gameState);
+        deployTime = 0;
+      } else {
+        deployTime += delta;
+      }
     }
 
     if (
