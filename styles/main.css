@@ -17,12 +17,12 @@ body {
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 2;
   opacity: 1;
-  transition-duration: 500ms;
+  transition: opacity 0.3s;
 }
 
 .modal-container.invisible {
   opacity: 0;
-  display: none;
+  pointer-events: none;
 }
 
 .modal {
