@@ -175,11 +175,25 @@ export class Slime {
     this.direction = possibleDirections[rand];
   }
 
+  getOppositeDirection() {
+    switch (this.direction) {
+      case "up":
+        return "down";
+      case "right":
+        return "left";
+      case "down":
+        return "up";
+      case "left":
+        return "right";
+      default:
+        return this.direction;
+    }
+  }
+
   die(scene, slimes) {
     if (this.d > 0.5) {
       this.d = 0.5;
       const bbox = new Box3().setFromObject(this.mesh);
-      const cent = bbox.getCenter(new Vector3());
       const size = bbox.getSize(new Vector3());
       const maxAxis = Math.max(size.x, size.y, size.z);
       this._mesh.scale.multiplyScalar(this.d / maxAxis);
@@ -191,7 +205,7 @@ export class Slime {
           this.z,
           this.mesh.clone(),
           0.5,
-          this.direction
+          this.getOppositeDirection()
         )
       );
       scene.add(slimes[slimes.length - 1].mesh);
