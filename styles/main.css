@@ -26,8 +26,8 @@ body {
 }
 
 .modal {
-  width: 80%;
-  max-width: 500px;
+  max-width: 90%;
+  width: 400px;
   margin: auto;
   padding: 40px;
   background-color: #ffffff;
@@ -38,6 +38,10 @@ body {
   z-index: 3;
   color: #444444;
   text-align: center;
+}
+
+.modal--wide {
+  width: 600px;
 }
 
 .modal h1 {
@@ -52,8 +56,12 @@ body {
 
 .modal div {
   display: inline-block;
-  width: 45%;
-  margin-top: 20px;
+  width: 48%;
+  margin: 24px 0;
+}
+
+.modal div:last-of-type {
+  width: 100%;
 }
 
 .modal button {
@@ -120,6 +128,7 @@ body {
   margin: 0;
   color: #7cb2c9;
   font-family: "Signika", sans-serif;
+  letter-spacing: 1px;
   font-weight: 700;
   font-size: 1.6rem;
   text-transform: uppercase;
