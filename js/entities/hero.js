@@ -397,9 +397,9 @@ function calcRotation(x) {
 }
 
 function calcSpeed(x) {
-  if (x < 3) return 2.2 - 0.05 * x;
-  else if (x < 11) return 2 - 0.1 * (x - 3);
-  else return 1.3;
+  if (x < 4) return 2.2 - 0.05 * x;
+  else if (x < 10) return 2 - 0.07 * (x - 3);
+  else return 1.5;
 }
 
 function getHeroModel() {
