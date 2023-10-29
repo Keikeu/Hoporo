@@ -213,7 +213,7 @@ function update() {
       if (deployTime > 1) {
         hero.deployCrystal(scene, gameState);
         deployTime = 0;
-      } else {
+      } else if (hero.crystals.length) {
         deployTime += delta;
       }
     }
