@@ -63,7 +63,11 @@ let crystals,
   starts,
   missiles;
 let start, hero, missile;
-let music, killSound;
+let music, killSound, weaponDisabledSound;
+
+const MUSIC_VOLUME = 0.4;
+const KILL_SOUND_VOLUME = 0.7;
+const WEAPON_DISABLED_SOUND_VOLUME = 0.2;
 
 let container, chargeContainer, scene, camera, renderer;
 let clock = new Clock(),
@@ -309,28 +313,47 @@ function render() {
 document.querySelector("#toggle-sound").addEventListener("click", toggleSound);
 document.querySelector("#toggle-music").addEventListener("click", toggleMusic);
 
+function turnSoundOn() {
+  localStorage.setItem("sound", true);
+  killSound.setVolume(KILL_SOUND_VOLUME);
+  weaponDisabledSound.setVolume(WEAPON_DISABLED_SOUND_VOLUME);
+  if (hero) hero.soundOn();
+  document.querySelector("#toggle-sound").style.color = "#f9f871";
+}
+
+function turnSoundOff() {
+  localStorage.setItem("sound", false);
+  killSound.setVolume(0);
+  weaponDisabledSound.setVolume(0);
+  if (hero) hero.soundOff();
+  document.querySelector("#toggle-sound").style.color = "#7cb2c9";
+}
+
 function toggleSound() {
   if (JSON.parse(localStorage.getItem("sound"))) {
-    localStorage.setItem("sound", false);
-    killSound.setVolume(0);
-    hero.soundOff();
-    document.querySelector("#toggle-sound").style.color = "#7cb2c9";
+    turnSoundOff();
   } else {
-    localStorage.setItem("sound", true);
-    killSound.setVolume(0.7);
-    hero.soundOn();
-    document.querySelector("#toggle-sound").style.color = "#f9f871";
+    turnSoundOn();
   }
 }
+
+function turnMusicOn() {
+  localStorage.setItem("music", true);
+  music.play();
+  document.querySelector("#toggle-music").style.color = "#f9f871";
+}
+
+function turnMusicOff() {
+  localStorage.setItem("music", false);
+  music.pause();
+  document.querySelector("#toggle-music").style.color = "#7cb2c9";
+}
+
 function toggleMusic() {
   if (JSON.parse(localStorage.getItem("music"))) {
-    localStorage.setItem("music", false);
-    music.pause();
-    document.querySelector("#toggle-music").style.color = "#7cb2c9";
+    turnMusicOff();
   } else {
-    localStorage.setItem("music", true);
-    music.play();
-    document.querySelector("#toggle-music").style.color = "#f9f871";
+    turnMusicOn();
   }
 }
 
@@ -524,23 +547,49 @@ function initAudio() {
   const listener = new AudioListener();
   const audioLoader = new AudioLoader();
 
+  const savedMusicOn =
+    JSON.parse(localStorage.getItem("music")) === null
+      ? true
+      : JSON.parse(localStorage.getItem("music"));
+  const savedSoundOn =
+    JSON.parse(localStorage.getItem("sound")) === null
+      ? true
+      : JSON.parse(localStorage.getItem("sound"));
+
+  if (savedMusicOn) {
+    document.querySelector("#toggle-music").style.color = "#f9f871";
+  } else {
+    document.querySelector("#toggle-music").style.color = "#7cb2c9";
+  }
+
+  if (savedSoundOn) {
+    document.querySelector("#toggle-sound").style.color = "#f9f871";
+  } else {
+    document.querySelector("#toggle-sound").style.color = "#7cb2c9";
+  }
+
   music = new Audio(listener);
-  killSound = new Audio(listener);
-
-  audioLoader.load("./media/sounds/kill.wav", (buffer) => {
-    killSound.setBuffer(buffer);
-    killSound.setVolume(0.7);
-  });
-
   audioLoader.load("./media/sounds/music.mp3", (buffer) => {
     music.setBuffer(buffer);
     music.setLoop(true);
-    music.setVolume(0.4);
-    music.play();
+    music.setVolume(MUSIC_VOLUME);
+    if (savedMusicOn) music.play();
   });
 
-  localStorage.setItem("sound", true);
-  localStorage.setItem("music", true);
+  weaponDisabledSound = new Audio(listener);
+  audioLoader.load("./media/sounds/disabled.wav", (buffer) => {
+    weaponDisabledSound.setBuffer(buffer);
+    weaponDisabledSound.setVolume(
+      savedSoundOn ? WEAPON_DISABLED_SOUND_VOLUME : 0
+    );
+    weaponDisabledSound.setPlaybackRate(0.7);
+  });
+
+  killSound = new Audio(listener);
+  audioLoader.load("./media/sounds/kill.wav", (buffer) => {
+    killSound.setBuffer(buffer);
+    killSound.setVolume(savedSoundOn ? KILL_SOUND_VOLUME : 0);
+  });
 }
 
 function initDecorations(scene, level) {
