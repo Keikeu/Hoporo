@@ -173,18 +173,26 @@ export class Hero {
         case "up":
           this.z = this.tween(this.z, -1, hM.delta);
           this.y = calcY(this.z % 1);
+          this.mesh.rotation.x = calcRotation(this.z % 1);
+          this.mesh.rotation.z = 0;
           break;
         case "right":
           this.x = this.tween(this.x, 1, hM.delta);
           this.y = calcY(this.x % 1);
+          this._mesh.rotation.x = 0.09;
+          this.mesh.rotation.z = -calcRotation(this.x % 1);
           break;
         case "down":
           this.z = this.tween(this.z, 1, hM.delta);
           this.y = calcY(this.z % 1);
+          this.mesh.rotation.x = -calcRotation(this.z % 1);
+          this.mesh.rotation.z = 0;
           break;
         case "left":
           this.x = this.tween(this.x, -1, hM.delta);
           this.y = calcY(this.x % 1);
+          this._mesh.rotation.x = -0.09;
+          this.mesh.rotation.z = calcRotation(this.x % 1);
           break;
       }
     } else if (hM.shouldMove && this.isMovePossible(hM.moveDirection)) {
@@ -382,6 +390,10 @@ export class Hero {
 
 function calcY(x) {
   return (-1 * (2 * x - 1) * (2 * x - 1) + 1) / 2 - 0.2;
+}
+
+function calcRotation(x) {
+  return -(Math.sin(2 * Math.PI * x) / 6);
 }
 
 function calcSpeed(x) {
