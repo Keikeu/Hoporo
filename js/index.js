@@ -69,6 +69,9 @@ const MUSIC_VOLUME = 0.4;
 const KILL_SOUND_VOLUME = 0.7;
 const WEAPON_DISABLED_SOUND_VOLUME = 0.2;
 
+export const PRIMARY_COLOR = "#f9f871";
+export const SECONDARY_COLOR = "#7cb2c9";
+
 let container, chargeContainer, scene, camera, renderer;
 let clock = new Clock(),
   delta = 0,
@@ -233,9 +236,10 @@ function update() {
 
     if (hero.charge < 10 && chargeTime > 0.4) {
       hero.charge++;
-      chargeContainer.children[hero.charge].style.backgroundColor = "#f9f871";
+      chargeContainer.children[hero.charge].style.backgroundColor =
+        PRIMARY_COLOR;
       if (hero.charge === 10)
-        chargeContainer.children[0].style.color = "#f9f871";
+        chargeContainer.children[0].style.color = PRIMARY_COLOR;
       chargeTime = 0;
     }
 
@@ -318,7 +322,7 @@ function turnSoundOn() {
   killSound.setVolume(KILL_SOUND_VOLUME);
   weaponDisabledSound.setVolume(WEAPON_DISABLED_SOUND_VOLUME);
   if (hero) hero.soundOn();
-  document.querySelector("#toggle-sound").style.color = "#f9f871";
+  document.querySelector("#toggle-sound").style.color = PRIMARY_COLOR;
 }
 
 function turnSoundOff() {
@@ -326,7 +330,7 @@ function turnSoundOff() {
   killSound.setVolume(0);
   weaponDisabledSound.setVolume(0);
   if (hero) hero.soundOff();
-  document.querySelector("#toggle-sound").style.color = "#7cb2c9";
+  document.querySelector("#toggle-sound").style.color = SECONDARY_COLOR;
 }
 
 function toggleSound() {
@@ -340,13 +344,13 @@ function toggleSound() {
 function turnMusicOn() {
   localStorage.setItem("music", true);
   music.play();
-  document.querySelector("#toggle-music").style.color = "#f9f871";
+  document.querySelector("#toggle-music").style.color = PRIMARY_COLOR;
 }
 
 function turnMusicOff() {
   localStorage.setItem("music", false);
   music.pause();
-  document.querySelector("#toggle-music").style.color = "#7cb2c9";
+  document.querySelector("#toggle-music").style.color = SECONDARY_COLOR;
 }
 
 function toggleMusic() {
@@ -362,63 +366,62 @@ function toggleMusic() {
 let debouncePlay = false;
 
 function onKeyDown(event) {
-  switch (event.keyCode) {
-    case 38: // up
-    case 87: // w
+  switch (event.key) {
+    case "ArrowUp":
+    case "w":
       heroMovement.shouldMove = true;
       heroMovement.moveDirection = "up";
       break;
-    case 39: // right
-    case 68: // d
+    case "ArrowRight":
+    case "d":
       heroMovement.shouldMove = true;
       heroMovement.moveDirection = "right";
       break;
-    case 40: // down
-    case 83: // s
+    case "ArrowDown":
+    case "s":
       heroMovement.shouldMove = true;
       heroMovement.moveDirection = "down";
       break;
-    case 37: // left
-    case 65: // a
+    case "ArrowLeft":
+    case "a":
       heroMovement.shouldMove = true;
       heroMovement.moveDirection = "left";
       break;
-    case 16: // shift
-    case 32: // space
+    case "Shift":
+    case "z":
       if (hero) {
         missileMovement.direction = hero.direction;
         missileMovement.shouldMove = true;
+        if (hero.charge !== 10) {
+          weaponDisabledSound.play();
+        }
       }
       break;
-    case 13: // enter
+    case "Enter":
       play();
       break;
   }
 }
+
 function onKeyUp(event) {
-  switch (event.keyCode) {
-    case 38: // up
-    case 87: // w
+  switch (event.key) {
+    case "ArrowUp":
+    case "ArrowRight":
+    case "ArrowDown":
+    case "ArrowLeft":
+    case "w":
+    case "d":
+    case "s":
+    case "a":
       heroMovement.shouldMove = false;
       break;
-    case 37: // left
-    case 65: // a
-      heroMovement.shouldMove = false;
-      break;
-    case 40: // down
-    case 83: // s
-      heroMovement.shouldMove = false;
-      break;
-    case 39: // right
-    case 68: // d
-      heroMovement.shouldMove = false;
-      break;
-    case 16: // shift
-    case 32: // space
+    case "Shift":
+    case "z":
       missileMovement.shouldMove = false;
       break;
   }
 }
+
 function onWindowResize() {
   if (container) {
     camera.aspect = container.clientWidth / container.clientHeight;
@@ -426,6 +429,7 @@ function onWindowResize() {
     renderer.setSize(container.clientWidth, container.clientHeight);
   }
 }
+
 function onError(e) {
   console.log(e);
   alert(
@@ -433,6 +437,7 @@ function onError(e) {
   );
   return false;
 }
+
 function play() {
   if (!debouncePlay) {
     debouncePlay = true;
@@ -492,7 +497,6 @@ window.addEventListener("error", onError);
 document.querySelectorAll(".play-btn").forEach((el) => {
   el.addEventListener("click", play);
 });
-3;
 
 // ============================ INITIALIZATION =================================
 
@@ -512,9 +516,10 @@ function initLevel() {
         renderer.dispose();
         for (let i = 1; i <= 10; i++) {
           document.querySelector("#charge").children[i].style.backgroundColor =
-            "#7cb2c9";
+            SECONDARY_COLOR;
         }
-        document.querySelector("#charge").children[0].style.color = "#7cb2c9";
+        document.querySelector("#charge").children[0].style.color =
+          SECONDARY_COLOR;
       }
 
       init();
@@ -557,15 +562,15 @@ function initAudio() {
       : JSON.parse(localStorage.getItem("sound"));
 
   if (savedMusicOn) {
-    document.querySelector("#toggle-music").style.color = "#f9f871";
+    document.querySelector("#toggle-music").style.color = PRIMARY_COLOR;
   } else {
-    document.querySelector("#toggle-music").style.color = "#7cb2c9";
+    document.querySelector("#toggle-music").style.color = SECONDARY_COLOR;
   }
 
   if (savedSoundOn) {
-    document.querySelector("#toggle-sound").style.color = "#f9f871";
+    document.querySelector("#toggle-sound").style.color = PRIMARY_COLOR;
   } else {
-    document.querySelector("#toggle-sound").style.color = "#7cb2c9";
+    document.querySelector("#toggle-sound").style.color = SECONDARY_COLOR;
   }
 
   music = new Audio(listener);
@@ -664,18 +669,3 @@ function initRenderer() {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = PCFSoftShadowMap;
 }
-
-// performance test
-// javascript: (function() {
-//    var script = document.createElement('script');
-//    script.onload = function() {
-//       var stats = new Stats();
-//       document.body.appendChild(stats.dom);
-//       requestAnimationFrame(function loop() {
-//          stats.update();
-//          requestAnimationFrame(loop)
-//       });
-//    };
-//    script.src = '//mrdoob.github.io/stats.js/build/stats.min.js';
-//    document.head.appendChild(script);
-// })()

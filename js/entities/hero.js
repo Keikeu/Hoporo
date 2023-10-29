@@ -9,10 +9,17 @@ import {
 
 import { GLTFLoader } from "../three/GLTFLoader.js";
 import { Crystal } from "./crystal.js";
+import { SECONDARY_COLOR } from "../index.js";
 
 const listener = new AudioListener();
 const audioLoader = new AudioLoader();
 let shootSound, jumpSound, grabSound, deploySound, ascendSound;
+
+const SHOOT_SOUND_VOLUME = 0.6;
+const JUMP_SOUND_VOLUME = 1.0;
+const GRAB_SOUND_VOLUME = 0.6;
+const DEPLOY_SOUND_VOLUME = 0.5;
+const ASCEND_SOUND_VOLUME = 0.6;
 
 export class Hero {
   constructor(map, x, y, z, heroModel, missileModel) {
@@ -280,9 +287,10 @@ export class Hero {
       mM.isMoving = true;
       for (let i = 1; i <= 10; i++) {
         document.querySelector("#charge").children[i].style.backgroundColor =
-          "#7cb2c9";
+          SECONDARY_COLOR;
       }
-      document.querySelector("#charge").children[0].style.color = "#7cb2c9";
+      document.querySelector("#charge").children[0].style.color =
+        SECONDARY_COLOR;
       shootSound.play();
     }
   }
@@ -327,7 +335,6 @@ export class Hero {
   }
 
   killMissile() {
-    console.log("kill missile");
     this.missile.layers.set(1);
     this.missile.position.set(100, 0, 100);
   }
@@ -380,11 +387,11 @@ export class Hero {
   }
 
   soundOn() {
-    shootSound.setVolume(0.6);
-    jumpSound.setVolume(1.0);
-    grabSound.setVolume(0.6);
-    deploySound.setVolume(0.6);
-    ascendSound.setVolume(0.6);
+    shootSound.setVolume(SHOOT_SOUND_VOLUME);
+    jumpSound.setVolume(JUMP_SOUND_VOLUME);
+    grabSound.setVolume(GRAB_SOUND_VOLUME);
+    deploySound.setVolume(DEPLOY_SOUND_VOLUME);
+    ascendSound.setVolume(ASCEND_SOUND_VOLUME);
   }
 }
 
@@ -470,30 +477,30 @@ export function initHero(scene, map, heros, missiles) {
 
   audioLoader.load("./media/sounds/shoot.wav", (buffer) => {
     shootSound.setBuffer(buffer);
-    shootSound.setVolume(0.6);
+    shootSound.setVolume(SHOOT_SOUND_VOLUME);
   });
 
   audioLoader.load("./media/sounds/jump.wav", (buffer) => {
     jumpSound.setBuffer(buffer);
-    jumpSound.setVolume(1.0);
+    jumpSound.setVolume(JUMP_SOUND_VOLUME);
   });
 
   audioLoader.load("./media/sounds/grab.wav", (buffer) => {
     grabSound.setBuffer(buffer);
-    grabSound.setVolume(0.6);
+    grabSound.setVolume(GRAB_SOUND_VOLUME);
     grabSound.setPlaybackRate(1.3);
     grabSound.duration = 0.55;
   });
 
   audioLoader.load("./media/sounds/deploy.wav", (buffer) => {
     deploySound.setBuffer(buffer);
-    deploySound.setVolume(0.6);
+    deploySound.setVolume(DEPLOY_SOUND_VOLUME);
     deploySound.setPlaybackRate(2.7);
   });
 
   audioLoader.load("./media/sounds/deploy.wav", (buffer) => {
     ascendSound.setBuffer(buffer);
-    ascendSound.setVolume(0.6);
+    ascendSound.setVolume(ASCEND_SOUND_VOLUME);
     ascendSound.setPlaybackRate(0.9);
   });
 }
